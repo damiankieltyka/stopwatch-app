@@ -1,0 +1,13 @@
+.display {
+    color: red;
+}
+
+a {
+    display: inline-block;
+    text-align: center;
+    width: 80px;
+    text-decoration: none;
+    color: tomato;
+    border: 2px tomato solid;
+    border-radius: 25px;
+}
