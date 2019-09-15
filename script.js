@@ -29,13 +29,13 @@ class Stopwatch extends React.Component {
         this.setState((state) => ({
             miliseconds: state.miliseconds + 1
         }));
-        if(this.state.miliseconds >=100) {
+        if(this.state.miliseconds >= 100) {
             this.setState((state) => ({
                 miliseconds: 0,
                 seconds: state.seconds +1
             }));
         }
-        if(this.state.seconds >=60) {
+        if(this.state.seconds >= 60) {
             this.setState((state) => ({
                 seconds: 0,
                 minutes: state.minutes +1
@@ -75,12 +75,13 @@ class Stopwatch extends React.Component {
         }));
     }
     save() {
+        const { format, state: { minutes, seconds, miliseconds, results} } = this;
         const savedResult = {
-            minutes: this.format(this.state.minutes),
-            seconds: this.format(this.state.seconds),
-            miliseconds: this.format(this.state.miliseconds)
+            minutes: format(minutes),
+            seconds: format(seconds),
+            miliseconds: format(miliseconds)
         };
-        let currentStateResults = this.state.results;
+        let currentStateResults = results;
         currentStateResults.push(savedResult);
         this.setState((state) => ({
             results: currentStateResults
@@ -92,21 +93,24 @@ class Stopwatch extends React.Component {
         }));
     }
     render() {
+        const { format,
+                state: { minutes, seconds, miliseconds, results },
+                reset, start, stop, save, clear} = this;
         return (
             <div>
             <Display>
-            {this.format(this.state.minutes)}:
-        {this.format(this.state.seconds)}:
-        {this.format(this.state.miliseconds)}
+            {format(minutes)}:
+        {format(seconds)}:
+        {format(miliseconds)}
     </Display>
         <Controls
-        onReset={this.reset}
-        onStart={this.start}
-        onStop={this.stop}
-        onSave={this.save}
-        onClear={this.clear}
+        onReset={reset}
+        onStart={start}
+        onStop={stop}
+        onSave={save}
+        onClear={clear}
         />
-        <Results results={this.state.results}/>
+        <Results results={results}/>
         </div>
     );
     }
@@ -128,13 +132,14 @@ class Controls extends React.Component {
         super(props);
     }
     render() {
+        const { onStart, onStop, onSave, onReset, onClear } = this.props;
         return (
             <nav className='navigation'>
-                <ControlButton onClick={this.props.onStart}>Start</ControlButton>
-                <ControlButton onClick={this.props.onStop}>Stop</ControlButton>
-                <ControlButton onClick={this.props.onSave}>Save</ControlButton>
-                <ControlButton onClick={this.props.onReset}>Reset</ControlButton>
-                <ControlButton onClick={this.props.onClear}>Clear</ControlButton>
+                <ControlButton onClick={onStart}>Start</ControlButton>
+                <ControlButton onClick={onStop}>Stop</ControlButton>
+                <ControlButton onClick={onSave}>Save</ControlButton>
+                <ControlButton onClick={onReset}>Reset</ControlButton>
+                <ControlButton onClick={onClear}>Clear</ControlButton>
             </nav>
     );
     }
